@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>Lista de Empleados</title>
+</head>
+<body>
+<div class="container">
+    <h1>Lista de Empleados</h1>
+    <a class="btn btn-primary mt-4 mb-4" th:href="@{/employee/new}">Nuevo Empleado</a>
+    <div th:if="${msg1!=null}" class="alert alert-success" th:text="${msg1}"></div>
+    <div th:if="${msg2!=null}" class="alert alert-warning" th:text="${msg2}"></div>
+    <div th:if="${msg3!=null}" class="alert alert-danger" th:text="${msg3}"></div>
+    <div th:if="${nohayjefe!=null}" class="alert alert-danger" th:text="${nohayjefe}"></div>
+
+    <form class="form-group mb-3" method="post" th:action="@{/employee/search}">
+        <div class="input-group-append">
+            <input class="form-control mr-2" placeholder="Texto a buscar (Primera letra en mayúscula)" name="name">
+            <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            <a class="btn btn-outline-danger ml-2" th:href="@{/employee}">Limpiar</a>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cargo</th>
+            <th>Departamento</th>
+            <th>Ciudad</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee, info : ${listaEmployee}">
+            <td th:text="${info.index + 1}"></td>
+            <td th:text="${employee.firstname}"></td>
+            <td th:text="${employee.lastname}"></td>
+            <td th:text="${employee.jobid.jobtitle}"></td>
+            <td th:text="${employee.departmentid.departmentname}"></td>
+            <td th:text="${employee.departmentid.locationid.city}"></td>
+            <td><a class="btn btn-primary" th:href="@{'/employee/edit' + '?id=' + ${employee.employeeid}}">Editar</a>
+            </td>
+            <td><a class="btn btn-danger" th:href="@{'/employee/delete' + '?id=' + ${employee.employeeid}}">Borrar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
